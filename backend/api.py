@@ -1,0 +1,87 @@
+from pymongo import MongoClient
+from fastapi.responses import RedirectResponse
+
+
+def isLogin(db_client: MongoClient, username: str, password: str) -> bool:
+    try:
+        users_db = db_client['users']["login_credentials"]
+        db_pw = users_db.find({'username': username})[0]['password']
+        return password == db_pw
+    except:
+        return False
+
+
+def idExist(db_client: MongoClient, id: str) -> bool:
+    try:
+        for col in db_client['urls'].list_collection_names():
+            db = db_client['urls'][col]
+            for _ in db.find({'compressed_id': id}):
+                return True
+        return False
+    except:
+        return False
+
+
+class apiUrl:
+
+    # provide redirection to original url
+    @staticmethod
+    def redirection(db_client: MongoClient, id: str) -> RedirectResponse:
+        result = ''
+        for col in db_client['urls'].list_collection_names():
+            db = db_client['urls'][col]
+            for doc in db.find({'compressed_id': id}):
+                result = doc['original']
+        return RedirectResponse(result)
+
+    # check login credentials
+    @staticmethod
+    def check_login(db_client: MongoClient, username: str,
+                    password: str) -> dict:
+        return {'results': isLogin(db_client, username, password)}
+
+    # get the name of a user
+    @staticmethod
+    def get_user_name(db_client: MongoClient, username: str,
+                      password: str) -> dict:
+        try:
+            if isLogin(db_client, username, password):
+                users_db = db_client['users']["login_credentials"]
+                user_name = users_db.find({'username': username})[0]['name']
+                return {'results': user_name}
+        except:
+            return {'results': None}
+
+    # get all urls from user
+    @staticmethod
+    def get_user_urls(db_client: MongoClient, username: str,
+                      password: str) -> dict:
+        try:
+            if isLogin(db_client, username, password):
+                result = []
+                url_db = db_client['urls'][username]
+                for document in url_db.find():
+                    document.pop('_id')
+                    result.append(document)
+                return {'results': result}
+            else:
+                return {'results': None}
+        except:
+            return {'results': None}
+
+    # create new compressed url
+    @staticmethod
+    def create_url(db_client: MongoClient, username: str, password: str,
+                   id: str, url: str) -> dict:
+        try:
+            if isLogin(db_client, username, password):
+                if not idExist(db_client, id):
+                    document = {"original": url, "compressed_id": id}
+                    url_db = db_client['urls'][username]
+                    url_db.insert_one(document)
+                    return {'result': True}
+                return {'result': False}
+            else:
+                return {'result': False}
+        except:
+            return {'result': False}

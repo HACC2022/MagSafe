@@ -1,0 +1,67 @@
+.app {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(1%, 0%);
+
+    height: 97vh;
+    width: 97vw;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    background-color: #f8f9fd;
+  }
+
+.main-page {
+    border-radius: 3%;
+    height: 85vh;
+    width: 85vw;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    align-self: center;
+    align-items: center;
+}
+
+.welcome {
+    font-size: 3vw;
+    padding-top: 5vh;
+    padding-left: 6.5vw;
+    padding-bottom: 3vh;
+}
+
+.nav-bar-button-container {
+    border-radius: 3%;
+    float: left;
+    margin-top: 1vh;
+    margin-left: 4.5vw;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    overflow: scroll;
+    max-height: 78%;
+    height: 85%;
+    width: 27%;
+}
+
+.nav-bar-button {
+    padding-top: 2.25vh;
+    padding-bottom: 2.25vh;
+    padding-left: 2.5vw;
+    padding-right: 2.5vw;
+}
+
+.nav-bar-button:hover {
+    background-color: #01d28e;
+    transition: 0.4s;
+    color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 1000px 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.nav-bar-button-original-url {
+    font-size: 2vw;
+}
+
+.nav-bar-button-compressed-url {
+    font-size: 1.6vw;
+}
+
+.overview-menu {
+    float: right;
+}
