@@ -79,9 +79,9 @@ class apiUrl:
                     document = {"original": url, "compressed_id": id}
                     url_db = db_client['urls'][username]
                     url_db.insert_one(document)
-                    return {'result': True}
-                return {'result': False}
+                    return {'results': True}
+                return {'results': False}
             else:
-                return {'result': False}
+                return {'results': False}
         except:
-            return {'result': False}
+            return {'results': False}
