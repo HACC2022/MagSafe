@@ -80,8 +80,21 @@ class apiUrl:
                     url_db = db_client['urls'][username]
                     url_db.insert_one(document)
                     return {'results': True}
-                return {'results': False}
-            else:
-                return {'results': False}
+            return {'results': False}
+        except:
+            return {'results': False}
+
+    # update url's id
+    @staticmethod
+    def edit_url(db_client: MongoClient, username: str, password: str,
+                 old_id: str, id: str) -> dict:
+        try:
+            if isLogin(db_client, username, password):
+                if not idExist(db_client, id):
+                    url_db = db_client['urls'][username]
+                    query = {'$set': {'compressed_id': id}}
+                    url_db.update_one({'compressed_id': old_id}, query)
+                    return {'results': True}
+            return {'results': False}
         except:
             return {'results': False}
