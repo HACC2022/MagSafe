@@ -42,7 +42,7 @@ def get_user_urls(request: Request, username, password):
 @app.get('/create/url/{username}/{password}/{id}/url={url:path}')
 def create_url(request: Request, username: str, password: str, id: str,
                url: str):
-    return apiUrl.create_url(client, username, password, id, url[:6] + '/' + url[6:])
+    return apiUrl.create_url(client, username, password, id, url)
 
 
 if __name__ == '__main__':
