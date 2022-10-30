@@ -39,7 +39,7 @@ def get_user_urls(request: Request, username, password):
 
 
 # create new compressed url
-@app.get('/create/url/{username}/{password}/{id}/url={url:path}')
+@app.get('/create/url/{username}/{password}/{id}/url={url}')
 def create_url(request: Request, username: str, password: str, id: str,
                url: str):
     return apiUrl.create_url(client, username, password, id, url)
