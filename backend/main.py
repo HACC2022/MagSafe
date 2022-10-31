@@ -53,5 +53,11 @@ def edit_url(request: Request, username: str, password: str, old_id: str,
     return apiUrl.edit_url(client, username, password, old_id, id)
 
 
+# delete url
+@app.get('/delete/url/{username}/{password}/{id}')
+def delete_url(request: Request, username: str, password: str, id: str):
+    return apiUrl.delete_url(client, username, password, id)
+
+
 if __name__ == '__main__':
     uvicorn.run('main:app', host='0.0.0.0', port=3000)

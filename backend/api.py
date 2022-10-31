@@ -98,3 +98,17 @@ class apiUrl:
             return {'results': False}
         except:
             return {'results': False}
+
+    # delete url
+    @staticmethod
+    def delete_url(db_client: MongoClient, username: str, password: str, id: str) -> dict:
+        try: 
+            if isLogin(db_client, username, password):
+                if idExist(db_client, id): 
+                    url_db = db_client['urls'][username]
+                    query = {'compressed_id': id}
+                    url_db.delete_one(query)
+                    return {'results': True}
+            return {'results': False}
+        except:
+            return {'results': False}
