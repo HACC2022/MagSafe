@@ -3,7 +3,6 @@
     align-items: center;
     justify-content: center;
     transform: translate(1%, 0%);
-
     height: 97vh;
     width: 97vw;
     font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
@@ -27,6 +26,18 @@
     padding-bottom: 3vh;
 }
 
+.main-page-top {
+    display: block ruby;
+}
+
+.new-url-button {
+    cursor: pointer;
+    float: right;
+    margin-right: 10vw;
+    margin-top: 4.8vh;
+    font-size: 80%;
+}
+
 .nav-bar-button-container {
     border-radius: 3%;
     float: left;
@@ -36,7 +47,7 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     overflow: scroll;
     max-height: 78%;
-    height: 85%;
+    height: 75%;
     width: 27%;
 }
 
@@ -48,6 +59,7 @@
 }
 
 .nav-bar-button:hover {
+    cursor: pointer;
     background-color: #01d28e;
     transition: 0.4s;
     color: white;

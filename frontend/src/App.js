@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 import './stylesheets/Login.css'
 import './stylesheets/NavBar.css'
 import './stylesheets/Dashboard.css'
+import './stylesheets/PopupForm.css'
 
 import './components/NavBarButton'
 import NavBarButton from './components/NavBarButton';
 import Dashboard from './components/Dashboard';
+import PopupForm from './components/PopupForm';
 
 const sha1 = require('sha1');
 const API_URL = "https://msf.vercel.app";
@@ -21,12 +23,19 @@ function App() {
   const [password, setPassword] = useState();
   const [loggedUser, setLoggedUser] = useState();
   const [userurls, setUserUrls] = useState([]);
-  const [selected, setSelected] = useState({});
+  const [selected, setSelected] = useState();
+  const [newID, setNewID] = useState();
 
 
   const errors = {
     pass: "invalid credentials"
   };
+
+  const getUserUrls = async (username, password) => {
+    const response = await fetch(`${API_URL}/get/userurls/${username}/${sha1(password)}`);
+    const data = await response.json();
+    return data.results 
+  }
 
   const handleSubmit = async (event) => {
     //Prevent page reload
@@ -43,12 +52,7 @@ function App() {
       const data = await response.json();
       return data.results;
     }
-
-    const getUserUrls = async (username, password) => {
-      const response = await fetch(`${API_URL}/get/userurls/${username}/${sha1(password)}`);
-      const data = await response.json();
-      return data.results 
-    }
+    
 
     const { uname, pass } = document.forms[0];
 
@@ -100,13 +104,6 @@ function App() {
       </form>
     </div>
   );
-
-  const selectUrl = (url) => {
-    setSelected(url);
-    console.log(url)
-    console.log(selected)
-  }
-
   
 
   return (
@@ -121,7 +118,10 @@ function App() {
         : 
             <> 
                 <div className="main-page">
-                    <div className="welcome">Welcome {loggedUser}!</div>
+                    <div className='main-page-top'>
+                      <div className="welcome">Welcome {loggedUser}!</div>
+                      <PopupForm username={username} password={password} setUserUrls={setUserUrls} setSelected={setSelected}/>
+                    </div>
                     {
                       <>
                         <div className='nav-bar-button-container'>
@@ -129,8 +129,8 @@ function App() {
                             <> 
                               {
                                 userurls.map((url) => (
-                                <div onClick={() => selectUrl(url)}>
-                                  <NavBarButton compressedURL={url} />
+                                <div onClick={() => {setSelected(url); setNewID('')}}>
+                                  <NavBarButton compressedURL={url}/>
                                 </div>
                                 ))
                               } 
@@ -140,7 +140,7 @@ function App() {
                       </>
                     } 
                     <div className="dashboard-container">
-                      { userurls.length > 0 ? (<Dashboard dashboard={selected} />) : ( <></> ) }
+                      { userurls.length > 0 ? (<Dashboard dashboard={selected} setNewID={setNewID} newID={newID} username={username} password={password} setUserUrls={setUserUrls} setSelected={setSelected}/>) : ( <></> ) }
                     </div>
                 </div>
             </>
