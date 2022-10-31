@@ -120,7 +120,7 @@ function App() {
                 <div className="main-page">
                     <div className='main-page-top'>
                       <div className="welcome">Welcome {loggedUser}!</div>
-                      <PopupForm username={username} password={password} setUserUrls={setUserUrls} setSelected={setSelected}/>
+                      
                     </div>
                     {
                       <>
@@ -139,7 +139,9 @@ function App() {
                         </div>
                       </>
                     } 
+                    <PopupForm username={username} password={password} setUserUrls={setUserUrls} setSelected={setSelected}/>
                     <div className="dashboard-container">
+                    
                       { userurls.length > 0 ? (<Dashboard dashboard={selected} setNewID={setNewID} newID={newID} username={username} password={password} setUserUrls={setUserUrls} setSelected={setSelected}/>) : ( <></> ) }
                     </div>
                 </div>
