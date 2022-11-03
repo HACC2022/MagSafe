@@ -11,6 +11,16 @@ def isLogin(db_client: MongoClient, username: str, password: str) -> bool:
         return False
 
 
+def isAdmin(db_client: MongoClient, username: str, password: str) -> bool:
+    try:
+        if isLogin(db_client, username, password):
+            users_db = db_client['users']["login_credentials"]
+            admin_status = users_db.find({'username': username})[0]['admin']
+            return admin_status
+    except:
+        return False
+
+
 def idExist(db_client: MongoClient, id: str) -> bool:
     try:
         for col in db_client['urls'].list_collection_names():
@@ -32,13 +42,21 @@ class apiUrl:
             db = db_client['urls'][col]
             for doc in db.find({'compressed_id': id}):
                 result = doc['original']
-        return RedirectResponse(result)
+        try:
+            return RedirectResponse(result)
+        except:
+            return None
 
     # check login credentials
     @staticmethod
     def check_login(db_client: MongoClient, username: str,
                     password: str) -> dict:
         return {'results': isLogin(db_client, username, password)}
+
+    @staticmethod
+    def get_admin_status(db_client: MongoClient, username: str,
+                         password: str) -> dict:
+        return {'results': isAdmin(db_client, username, password)}
 
     # get the name of a user
     @staticmethod
@@ -101,10 +119,11 @@ class apiUrl:
 
     # delete url
     @staticmethod
-    def delete_url(db_client: MongoClient, username: str, password: str, id: str) -> dict:
-        try: 
+    def delete_url(db_client: MongoClient, username: str, password: str,
+                   id: str) -> dict:
+        try:
             if isLogin(db_client, username, password):
-                if idExist(db_client, id): 
+                if idExist(db_client, id):
                     url_db = db_client['urls'][username]
                     query = {'compressed_id': id}
                     url_db.delete_one(query)

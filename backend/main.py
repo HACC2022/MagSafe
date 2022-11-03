@@ -15,26 +15,31 @@ app.add_middleware(CORSMiddleware, allow_origins=['*'])
 
 # direct function
 @app.get('/{id}')
-async def redirect(request: Request, id):
+async def redirect(request: Request, id: str):
     if len(id) > 1:
         return apiUrl.redirection(client, id)
 
 
 # get name of user
 @app.get('/get/username/{username}/{password}')
-def get_user_name(request: Request, username, password):
+def get_user_name(request: Request, username: str, password: str):
     return apiUrl.get_user_name(client, username, password)
 
 
 # check if login info is correct
 @app.get('/login/{username}/{password}')
-def login(request: Request, username, password):
+def login(request: Request, username: str, password: str):
     return apiUrl.check_login(client, username, password)
 
 
+@app.get('/get/adminstatus/{username}/{password}')
+def get_admin_status(request: Request, username: str, password: str):
+    return apiUrl.get_admin_status(client, username, password)
+
+    
 # get urls created by users
 @app.get('/get/userurls/{username}/{password}')
-def get_user_urls(request: Request, username, password):
+def get_user_urls(request: Request, username: str, password: str):
     return apiUrl.get_user_urls(client, username, password)
 
 
