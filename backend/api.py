@@ -145,13 +145,12 @@ class apiUrl:
             return {'results': False}
 
     @staticmethod
-    def approve_url(db_client: MongoClient, username: str, password: str, id: str):
+    def approve_url(db_client: MongoClient, username: str, password: str, id: str, author: str):
         try: 
             if isAdmin(db_client, username, password):
-                url_db = db_client['urls'][username]
-                status = url_db.find({'id': id})[0]['approved']
-                
-                url_db = db_client['url'][username]
+                url_db = db_client['urls'][author]
                 query = {'$set': {'approved': True}}
+                url_db.update_one({'compressed_id': id}, query)
+                return {'results': True}
         except: 
             return {'results': False}
