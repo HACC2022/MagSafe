@@ -52,16 +52,17 @@ def create_url(request: Request, username: str, password: str, id: str,
 
 
 # update url's id
-@app.get('/edit/url/{username}/{password}/{old_id}/{id}')
+@app.get('/edit/url/{username}/{password}/{old_id}/{id}/{author}')
 def edit_url(request: Request, username: str, password: str, old_id: str,
-             id: str):
-    return apiUrl.edit_url(client, username, password, old_id, id)
+             id: str, author: str):
+    return apiUrl.edit_url(client, username, password, old_id, id, author)
 
 
 # delete url
-@app.get('/delete/url/{username}/{password}/{id}')
-def delete_url(request: Request, username: str, password: str, id: str):
-    return apiUrl.delete_url(client, username, password, id)
+@app.get('/delete/url/{username}/{password}/{id}/{author}')
+def delete_url(request: Request, username: str, password: str, id: str, 
+               author: str):
+    return apiUrl.delete_url(client, username, password, id, author)
 
 
 if __name__ == '__main__':

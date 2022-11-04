@@ -41,7 +41,8 @@ class apiUrl:
         for col in db_client['urls'].list_collection_names():
             db = db_client['urls'][col]
             for doc in db.find({'compressed_id': id}):
-                result = doc['original']
+                if not doc['approved']:
+                    result = doc['original']
         try:
             return RedirectResponse(result)
         except:
@@ -115,11 +116,11 @@ class apiUrl:
     # update url's id
     @staticmethod
     def edit_url(db_client: MongoClient, username: str, password: str,
-                 old_id: str, id: str) -> dict:
+                 old_id: str, id: str, author: str) -> dict:
         try:
             if isLogin(db_client, username, password):
                 if not idExist(db_client, id):
-                    url_db = db_client['urls'][username]
+                    url_db = db_client['urls'][author]
                     query = {'$set': {'compressed_id': id}}
                     url_db.update_one({'compressed_id': old_id}, query)
                     return {'results': True}
@@ -130,14 +131,15 @@ class apiUrl:
     # delete url
     @staticmethod
     def delete_url(db_client: MongoClient, username: str, password: str,
-                   id: str) -> dict:
+                   id: str, author: str) -> dict:
         try:
             if isLogin(db_client, username, password):
                 if idExist(db_client, id):
-                    url_db = db_client['urls'][username]
-                    query = {'compressed_id': id}
-                    url_db.delete_one(query)
-                    return {'results': True}
+                    if isAdmin(db_client, username, password) or username == author: 
+                        url_db = db_client['urls'][author]
+                        query = {'compressed_id': id}
+                        url_db.delete_one(query)
+                        return {'results': True}
             return {'results': False}
         except:
             return {'results': False}

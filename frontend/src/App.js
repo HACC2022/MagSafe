@@ -10,6 +10,8 @@ import NavBarButton from './components/NavBarButton';
 import Dashboard from './components/Dashboard';
 import PopupForm from './components/PopupForm';
 
+// npm install react-scripts --save
+
 const sha1 = require('sha1');
 const API_URL = "https://msf.vercel.app";
 
@@ -34,7 +36,13 @@ function App() {
   const getUserUrls = async (username, password) => {
     const response = await fetch(`${API_URL}/get/userurls/${username}/${sha1(password)}`);
     const data = await response.json();
-    return data.results 
+    return data.results;
+  }
+
+  const getAdminStatus = async (username, password) => {
+    const response = await fetch(`${API_URL}/get/adminstatus/${username}/${sha1(password)}`);
+    const data = await response.json(); 
+    return data.results;
   }
 
   const handleSubmit = async (event) => {

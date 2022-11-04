@@ -7,7 +7,7 @@ const Dashboard = ({dashboard, setNewID, newID, username, password, setUserUrls,
 
     const edit_url = async () => {
         if (newID!==dashboard.compressed_id && newID ) {
-            const response = await fetch(`${API_URL}/edit/url/${username}/${password}/${dashboard.compressed_id}/${newID}`);
+            const response = await fetch(`${API_URL}/edit/url/${username}/${password}/${dashboard.compressed_id}/${newID}/${dashboard.author}`);
             const data = await response.json();
             
             const urls_response = await fetch(`${API_URL}/get/userurls/${username}/${password}`);
@@ -22,7 +22,7 @@ const Dashboard = ({dashboard, setNewID, newID, username, password, setUserUrls,
     }
 
     const delete_url = async () => {
-        const response = await fetch(`${API_URL}/delete/url/${username}/${password}/${dashboard.compressed_id}`);
+        const response = await fetch(`${API_URL}/delete/url/${username}/${password}/${dashboard.compressed_id}/${dashboard.author}`);
         const data = await response.json();
 
         const urls_response = await fetch(`${API_URL}/get/userurls/${username}/${password}`);
