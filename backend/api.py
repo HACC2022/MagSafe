@@ -53,6 +53,7 @@ class apiUrl:
                     password: str) -> dict:
         return {'results': isLogin(db_client, username, password)}
 
+    # get admin status
     @staticmethod
     def get_admin_status(db_client: MongoClient, username: str,
                          password: str) -> dict:
@@ -64,7 +65,7 @@ class apiUrl:
                       password: str) -> dict:
         try:
             if isLogin(db_client, username, password):
-                users_db = db_client['users']["login_credentials"]
+                users_db = db_client['users']['login_credentials']
                 user_name = users_db.find({'username': username})[0]['name']
                 return {'results': user_name}
         except:
@@ -94,7 +95,9 @@ class apiUrl:
         try:
             if isLogin(db_client, username, password):
                 if not idExist(db_client, id):
-                    document = {"original": url, "compressed_id": id}
+                    document = {'original': url, 'compressed_id': id, 'approved': False}
+                    if isAdmin(db_client, username, password):
+                        document = {'original': url, 'compressed_id': id, 'approved': True}
                     url_db = db_client['urls'][username]
                     url_db.insert_one(document)
                     return {'results': True}
@@ -130,4 +133,16 @@ class apiUrl:
                     return {'results': True}
             return {'results': False}
         except:
+            return {'results': False}
+
+    @staticmethod
+    def approve_url(db_client: MongoClient, username: str, password: str, id: str):
+        try: 
+            if isAdmin(db_client, username, password):
+                url_db = db_client['urls'][username]
+                status = url_db.find({'id': id})[0]['approved']
+                
+                url_db = db_client['url'][username]
+                query = {'$set': {'approved': True}}
+        except: 
             return {'results': False}
