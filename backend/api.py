@@ -78,10 +78,17 @@ class apiUrl:
         try:
             if isLogin(db_client, username, password):
                 result = []
-                url_db = db_client['urls'][username]
-                for document in url_db.find():
-                    document.pop('_id')
-                    result.append(document)
+                if isAdmin(db_client, username, password): 
+                    for col in db_client['urls'].list_collection_names():
+                        db = db_client['urls'][col]
+                        for doc in db.find():
+                            doc.pop('_id')
+                            result.append(doc)
+                else:
+                    url_db = db_client['urls'][username]
+                    for document in url_db.find():
+                        document.pop('_id')
+                        result.append(document)
                 return {'results': result}
             else:
                 return {'results': None}
