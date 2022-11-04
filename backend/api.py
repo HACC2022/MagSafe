@@ -95,9 +95,9 @@ class apiUrl:
         try:
             if isLogin(db_client, username, password):
                 if not idExist(db_client, id):
-                    document = {'original': url, 'compressed_id': id, 'approved': False}
+                    document = {'original': url, 'compressed_id': id, 'approved': False, 'author': username}
                     if isAdmin(db_client, username, password):
-                        document = {'original': url, 'compressed_id': id, 'approved': True}
+                        document = {'original': url, 'compressed_id': id, 'approved': True, 'author': username}
                     url_db = db_client['urls'][username]
                     url_db.insert_one(document)
                     return {'results': True}
