@@ -41,7 +41,7 @@ class apiUrl:
         for col in db_client['urls'].list_collection_names():
             db = db_client['urls'][col]
             for doc in db.find({'compressed_id': id}):
-                if not doc['approved']:
+                if doc['approved']:
                     result = doc['original']
         try:
             return RedirectResponse(result)
