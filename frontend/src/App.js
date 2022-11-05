@@ -155,7 +155,7 @@ function App() {
                         </div>
                       </>
                     } 
-                    <PopupForm username={username} password={password} setUserUrls={setUserUrls} setSelected={setSelected}/>
+                    <PopupForm username={username} password={password} setUserUrls={setUserUrls} setSelected={setSelected} admin={admin}/>
                     <div className="dashboard-container">
                     
                       { userurls.length > 0 ? (<Dashboard dashboard={selected} setNewID={setNewID} newID={newID} username={username} password={password} setUserUrls={setUserUrls} setSelected={setSelected} admin={admin}/>) : ( <></> ) }

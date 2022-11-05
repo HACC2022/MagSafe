@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
-const PopupForm = ({username, password, setUserUrls, setSelected}) => {
+const PopupForm = ({username, password, setUserUrls, setSelected, admin}) => {
 
   const [original, setOriginal] = useState();
   const [compressedID, setCompressedID] = useState();
@@ -14,11 +14,19 @@ const PopupForm = ({username, password, setUserUrls, setSelected}) => {
     const data = await response.json();
     if (data.results) {
       setUserUrls(oldState => {
-        oldState.push({'original': original, 'compressed_id': compressedID, 'author': username});
+        if (admin) {
+          oldState.push({'original': original, 'compressed_id': compressedID, 'author': username, 'approved': true});
+          return oldState
+        }
+        oldState.push({'original': original, 'compressed_id': compressedID, 'author': username, 'approved': false});
         return oldState
       });
-      console.log(username)
-      setSelected({'original': original, 'compressed_id': compressedID, 'author': username});
+
+      if (admin){
+        setSelected({'original': original, 'compressed_id': compressedID, 'author': username, 'approved': true});
+      } else {
+        setSelected({'original': original, 'compressed_id': compressedID, 'author': username, 'approved': false});
+      }
     }
   }
 
