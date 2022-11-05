@@ -14,11 +14,11 @@ const PopupForm = ({username, password, setUserUrls, setSelected}) => {
     const data = await response.json();
     if (data.results) {
       setUserUrls(oldState => {
-        oldState.push({'original': original, 'compressed_id': compressedID});
+        oldState.push({'original': original, 'compressed_id': compressedID, 'author': username});
         return oldState
       });
-      console.log(setSelected)
-      setSelected({'original': original, 'compressed_id': compressedID});
+      console.log(username)
+      setSelected({'original': original, 'compressed_id': compressedID, 'author': username});
     }
   }
 

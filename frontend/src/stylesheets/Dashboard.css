@@ -22,7 +22,7 @@
 
 .dashboard-original-url {
     font-weight: bold;
-    font-size: 150%;
+    font-size: 125%;
     margin-top: 3vh;
     margin-left: 3vw;
 }
@@ -30,6 +30,12 @@
 .dashboard-redirect-from {
     font-size: 125%;
     margin-top: 2vh;
+    margin-left: 3vw;
+}
+
+.dashboard-author {
+    font-size: 100%;
+    margin-top: 0.8vh;
     margin-left: 3vw;
 }
 
@@ -111,4 +117,20 @@
 
 .dashboard-component-wrapper {
     margin-top: 5vh;
+}
+
+.dashboard-approve-button {
+    transform: translate3d(2vw, 2.5vh, 0px);
+    padding: 0.5vh;
+    background-color:#01d28e;
+    color: white;
+    cursor: pointer;
+    border: 2px solid #01d28e;
+    border-radius: 0.5vw;
+    margin-left: 0.8vw;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.dashboard-approve-button:hover {
+    box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.2), 0 2.5px 7px 0 rgba(0, 0, 0, 0.19);
 }

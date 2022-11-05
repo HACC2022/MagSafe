@@ -10,6 +10,10 @@ import NavBarButton from './components/NavBarButton';
 import Dashboard from './components/Dashboard';
 import PopupForm from './components/PopupForm';
 
+import AdminIcon from './icons/AdminIcon.svg';
+import UserIcon from './icons/UserIcon.svg';
+
+
 // npm install react-scripts --save
 
 const sha1 = require('sha1');
@@ -27,6 +31,7 @@ function App() {
   const [userurls, setUserUrls] = useState([]);
   const [selected, setSelected] = useState();
   const [newID, setNewID] = useState();
+  const [admin, setAdmin] = useState();
 
 
   const errors = {
@@ -40,7 +45,7 @@ function App() {
   }
 
   const getAdminStatus = async (username, password) => {
-    const response = await fetch(`${API_URL}/get/adminstatus/${username}/${sha1(password)}`);
+    const response = await fetch(`${API_URL}/get/adminstatus/${username}/${password}`);
     const data = await response.json(); 
     return data.results;
   }
@@ -82,6 +87,8 @@ function App() {
         }
         setLoggedUser(await getName(uname.value, pass.value));
         setIsSubmitted(true);
+        setAdmin(await getAdminStatus(uname.value, sha1(pass.value)));
+        console.log(await getAdminStatus(uname.value, sha1(pass.value)));
       }
     } 
   };
@@ -128,7 +135,8 @@ function App() {
                 <div className="main-page">
                     <div className='main-page-top'>
                       <div className="welcome">Welcome {loggedUser}!</div>
-                      
+                      { admin ? (<img src={AdminIcon} alt="admin-icon"/ >) : ( <img src={UserIcon} alt="user-icon"/>)
+                      }
                     </div>
                     {
                       <>
@@ -150,7 +158,7 @@ function App() {
                     <PopupForm username={username} password={password} setUserUrls={setUserUrls} setSelected={setSelected}/>
                     <div className="dashboard-container">
                     
-                      { userurls.length > 0 ? (<Dashboard dashboard={selected} setNewID={setNewID} newID={newID} username={username} password={password} setUserUrls={setUserUrls} setSelected={setSelected}/>) : ( <></> ) }
+                      { userurls.length > 0 ? (<Dashboard dashboard={selected} setNewID={setNewID} newID={newID} username={username} password={password} setUserUrls={setUserUrls} setSelected={setSelected} admin={admin}/>) : ( <></> ) }
                     </div>
                 </div>
             </>

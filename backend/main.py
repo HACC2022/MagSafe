@@ -64,6 +64,7 @@ def delete_url(request: Request, username: str, password: str, id: str,
                author: str):
     return apiUrl.delete_url(client, username, password, id, author)
 
+
 @app.get('/approve/url/{username}/{password}/{id}/{author}')
 def approve_url(request: Request, username: str, password: str, id: str,
                author: str): 
